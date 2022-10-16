@@ -6,7 +6,7 @@ from flask_migrate import Migrate
 # from flask_sqlalchemy import SQLAlchemy
 
 
-from config import DevelopmentConfig
+from config import DevelopmentConfig, ProductionConfig
 
 from . forms import *
 from . models import *
@@ -17,7 +17,7 @@ def create_app():
     app = Flask(__name__)
     
     with app.app_context():
-        app.config.from_object(DevelopmentConfig)
+        app.config.from_object(ProductionConfig)
         db.init_app(app)
 
         # https://postgrespro.ru/docs/postgrespro/9.5/pgtrgm
