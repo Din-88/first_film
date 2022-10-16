@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %} Регистрация {% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="/static/css/form_style.css">
+    {% from "macros.html" import render_form_field %}
+
+    <section class="sign_form">
+        <div class="form_container">
+            <p>Регистрация</p>
+            <form method=post>
+                {{ form.csrf_token }}
+                <div>
+                    <span id="username_check" >Имя занято</span>
+                    {{ render_form_field(form.username) }}
+                </div>
+                <div>
+                    <span id="email_check" >Email занят</span>
+                    {{ render_form_field(form.email) }}
+                </div>
+                {{ render_form_field(form.password) }}
+                {{ render_form_field(form.confirm) }}
+                <span>                    
+                    <a href={{ url_for("home.terms_and_conditions") }} target="_blank">Я принимаю Правила и Условия пользования</a>
+                    {{ form.accept_tos()|safe }}
+                    {% if form.accept_tos.errors %}
+                    <span class=errors>
+                        {% for error in form.accept_tos.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </span>
+                    {% endif %}
+                    <!-- {{ render_form_field(form.accept_tos) }} -->
+                </span>  
+                <input type=submit value=Регистрация>
+            </form>
+        </div>
+        <p>Уже есть аккаунт? <span><a href={{ url_for("home.signin") }}>Войдите</a> </span></p>
+    </section>
+
+    <script src="../static/javascript/register.js"></script>
+{% endblock %}
+

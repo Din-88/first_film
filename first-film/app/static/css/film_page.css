@@ -1,0 +1,225 @@
+.film_page {
+    display: grid;
+    grid-template-columns: 200px minmax(300px, 700px);
+    grid-template-rows: auto;
+
+    gap: 10px;
+    
+    justify-content: center;
+    padding: 5px;
+    border: 2px solid grey;
+}
+.left {
+    position: sticky;
+    height: fit-content;
+    top: 0;
+    grid-area: 1/1 / 5/2;
+}
+.poster {
+    width: 200px;
+    height: 300px;
+    height: fit-content;
+    top: 0;
+
+    grid-area: 1/1 / 6/2;
+}
+
+.look_at_kinopoisk {
+    grid-area: 4/1;
+}
+.look_at_kinopoisk h2 a {
+    display: block;
+    position: relative;
+    width: 200px;
+    font-size: 1.5rem;
+}
+
+.film_name {
+    grid-area: 1/2;
+    flex-basis: 700px;
+}
+
+.right {
+    grid-area: 2/2;
+}
+
+.info {
+    grid-area: 3/2;
+}
+.info td {
+    vertical-align: top;
+    line-height: 1.2;
+}
+.info td:last-child {
+    padding-left: 10px;
+}
+
+.description {
+    line-height: 1.2;
+    padding: 10px 0 10px 0;
+    grid-area: 4/2;
+}
+
+.slogan {
+    top: 0;
+    grid-area: 3/2;
+}
+.slogan p {
+    padding: 0;
+}
+
+.video_block {
+    grid-area: 4/2;
+}
+.video_block .video {
+    position: relative;
+    padding: 0 0 56.25% 0;
+    height: 0;
+    overflow: hidden;
+}
+.video_block iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.video_block select {
+    background-color: #212121;
+    max-width: 169px;
+    margin: 5px;
+    color: white;
+    font-size: 1rem;
+    padding: 5px;
+    border: none;
+}
+.video_block select {
+    border: none;
+}
+.video_block select option {
+    border: none;
+}
+.video_block select option:hover {
+    color: red;
+    background-color: black;
+}
+
+.reviews_block {
+    grid-area: 5/2;
+    margin-top: 10px;
+}
+.reviews_block #more_reviews {
+    cursor: pointer;
+    display: inline-block;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: black;
+    color: aliceblue;
+}
+.reviews_block #more_reviews:active {
+    background-color: #212121;
+} 
+
+.reviews_block .review {
+    padding: 5px;
+    margin-bottom: 15px;
+    background-color: rgb(10,10,10);
+}
+.reviews_block .review p {
+    line-height: 1.2;
+    font-size: 1rem;
+    padding-bottom: 5px;
+}
+.reviews_block .review strong {
+    margin-top: 5px;
+}
+.reviews_block .review .review_header {
+    display: block;
+    background-color: black;
+    padding: 10px;
+    margin: -5px -5px 5px -5px;
+}
+.reviews_block .review .date_time {
+    float: right;
+}
+.reviews_block .review .description {
+    position: relative;
+    max-height: 100px;
+    overflow: hidden;
+    padding: 5px 0 5px 0;
+}
+.reviews_block .review .description .bottom {
+    position: absolute;
+    bottom: 0;
+    background: linear-gradient(
+        to bottom, 
+        rgba(10, 10, 10, 0), 
+        rgba(10, 10, 10, 1) 
+        100% );
+    width: 100%;
+    height: 70px;
+    opacity: 1;
+    transition: 0.3s;
+}
+.reviews_block .review .more_checker {
+    opacity: 0;
+    position: absolute;
+}
+.reviews_block .review .more_checker:checked ~ .description {
+    max-height: none;
+}
+.reviews_block .review .more_checker:checked ~ .description .bottom {
+    opacity: 0;
+    transition: 0.3s;
+}
+.reviews_block .review .more_checker ~ .more_button:before {
+    content: "Развернуть >>";
+}
+.reviews_block .review .more_checker:checked ~ .more_button:before {
+    content: "Свернуть <<";
+}
+.reviews_block .review .more_button {
+    cursor: pointer;
+    display: inline-block;
+    padding: 2px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    
+}
+.reviews_block .review .more_button:active {
+    background-color: #212121;
+}
+
+.similars_block {
+    display: grid;
+    grid-area: 6/2;
+    margin-top: 10px;
+    grid-area: 6/2;
+}
+.similars_block p {
+    display: block;
+    position: relative;
+    padding: 0;
+
+}
+.similars_block .similars {
+    display: grid;
+    overflow: overlay;
+    grid-auto-flow: column;
+    justify-content: flex-start;
+    gap: 10px;
+    /* grid-area: 6/2; */
+    margin-top: 10px;
+}
+.similars_block .similar {    
+    display: block;
+    max-width: 103px;
+    margin-bottom: 10px;
+}
+.similars_block .similar a {
+    font-size: 0.9rem;
+}
+.similars_block .similar a h5 {
+    font-size: 0.9rem;
+}

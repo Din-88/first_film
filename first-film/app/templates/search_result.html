@@ -1,0 +1,11 @@
+<param name="len" value={{ found|length }}>
+{% if found|length > 0 %}
+    {% for f in found %}
+        {% if loop.index < 10 %}
+        <a href={{ url_for("home.film_page", film_id=f.filmId) }}>{{ f.nameRu }}</a>
+        {% endif %}    
+    {% endfor %}
+    <a href={{ url_for("home.search", search_text=search_text) }}> Смотреть все результаты ( {{ found|length }} ) </a>
+{% else %}
+    <div>Ничего не нашлось</div>
+{% endif %}

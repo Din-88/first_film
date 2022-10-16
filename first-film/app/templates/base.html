@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="language" content="ru">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/search_form.css">
+    {% block link %} <link rel="stylesheet" href="../static/css/media.css"> {% endblock %}
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../static/png/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/png/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../static/png/favicon-16x16.png">
+
+    <title>{% block title %} First Film {% endblock %}</title>
+</head>
+<body>
+    <header class="base_container">
+        <div id="menu_button" class="menu_button">☰</div>
+
+        <nav id="first_nav" class="first_nav ">
+            <ul class="left">
+                <li><a href={{ url_for("home.index") }}>Главная</a></li>
+                {% if current_user.is_authenticated %}
+                    {% if current_user.is_admin() %}
+                        <li><a href={{ url_for("admin.index") }}>Админ</a></li>
+                    {% endif %}
+                {% endif %}
+                <li><a href={{ url_for("home.about") }}>О нас</a></li>
+            </ul>
+            <ul class="right">
+                {% if current_user.is_authenticated %}
+                    <li><a href={{ url_for("home.index") }}>{{current_user.username}}</a></li>
+                    <li><a href={{ url_for("home.signout") }}><img src="../static/png/sign_out2.png" alt=""></a></li>
+                {% else %}
+                    <li><a href={{ url_for("home.signup") }}>Регистрация</a></li>
+                    <li><a href={{ url_for("home.signin") }}>Войти</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        <hr>
+        <nav class="second_nav second_nav_mobile">
+            <ul>
+                <li id="films" class="second_nav_item">Фильмы</li>
+                <li id="series" class="second_nav_item">Сериалы</li>
+                <li id="mini_series" class="second_nav_item">Мини Сериалы</li>
+                <li id="cartoons" class="second_nav_item">Мультфильмы</li>
+                <li id="new" class="second_nav_item">Новинки</li>
+                {# <li><a href={{ url_for("home.index")+"new" }}>Новинки</a></li> #}
+            </ul>
+
+            <form id="search_form" class="search_form" 
+                action={{ url_for("home.search") }} method="get"
+                required>
+                <button type="submit" title="Начать поиск" class="search_button">
+                    <img src="../../static/png/search-65.png" alt="">
+                </button>
+                <input type="search" id="search_text" name="search_text" class="search_text" 
+                        onfocus="if(this.value=='Поиск фильмов и сериалов'){this.value=''}" 
+                        onblur="if(this.value==''){this.value='Поиск фильмов и сериалов'}" 
+                        autocomplete="off" data-default="Поиск фильмов и сериалов" 
+                        value="Поиск фильмов и сериалов" required>
+                <div id="search_result"></div>
+            </form>
+        </nav>
+    </header>
+
+    <main class="base_container">
+        {% block content %} {% endblock %}
+    </main>
+
+    <footer class="base_container">
+        <br>
+        <hr>
+        <div>
+            <!-- <div class="contacts">
+                <a href="https://uralsk.hh.kz/resume/0d8fdbc1ff0aeb317c0039ed1f546e4c696551" target="_blank">
+                    <img src="../static/png/min-hh-red-65.png" alt="hh">
+                </a>
+                <a href="https://github.com/Din-88/first_film" target="_blank">
+                    <img src="../static/png/GitHub-Mark-Light-65.png" alt="gh">
+                </a>
+                <a href="mailto:din.vasilevsky@gmail.com" target="_blank">
+                    <img src="../static/png/Gmail_logo-color-87-65.png" alt="gm">
+                </a>
+                <a href="tel:+77775678069" target="_blank">
+                    <img src="../static/png/Phone_icon-65.png" alt="ph">
+                </a>
+                <a href="https://wa.me/+77775678069" target="_blank">
+                    <img src="../static/png/WhatsApp_logo-color-65.png" alt="wt">
+                </a>
+            </div> -->
+            <span>2022</span>
+
+            <div class="text">
+                <p>
+                    Если размещение какого либо содержимого на сайте first-film.ddns.net нарушает ваши права,
+                    сообщите об этом на почту <a href="mailto:din.vasilevsky@gmail.com" target="_blank">din.vasilevsky@gmail.com.</a>
+                </p>            
+                <p>
+                    Продолжая использовать cайт first-film.ddns.net вы соглашаетесь с <a href={{ url_for("home.terms_and_conditions") }} target="_blank"><u>условиями пользования.</u></a>
+                </p>
+
+                <p>
+                    Сайт first-film.ddns.net является сайтом-портфолио c отрытым исходным кодом.
+                </p>            
+            </div>
+        <hr>
+        
+    </footer>
+
+    <div class="overlay"></div>
+    
+    <script src="../static/scripts/search_form.js"></script>
+    <script src="../static/scripts/javascript.js"></script>
+    <script src="../static/scripts/header_nav.js"></script>
+
+    <link rel="stylesheet" href="../static/css/search_form.css">
+</body>
+
+</html>

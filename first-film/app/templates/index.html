@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if params['search_text'] %}
+    <h2> Результаты поиска "{{ params['search_text'] }}" </h2>
+    {% endif %}
+    <div class="films_preview">
+        {% for film in films %}
+            <div class="film_preview">
+                <div class="poster_preview">
+                    <img src="{{ film.posterUrlPreview }}" alt="img">
+                    {% if film.ratingAgeLimits %}
+                    <span class="ratingAgeLimits">{{ film.ratingAgeLimits }}</span>
+                    {% endif %}
+                    {% if film.ratingKinopoisk %}
+                    <span class="ratingKinopoisk">{{ film.ratingKinopoisk }}</span>
+                    {% endif %}
+                </div>
+                <div class="description_preview">
+                    {# <p><a href={{ url_for('home.film_page', film_id=film.filmId) }} + >{{ film.nameRu }}</a></p> #}
+                    <p><a href={{ url_for("home.film_page", film_type=params["film_type"], film_id=film.filmId) }}>{{ film.nameRu }}</a></p>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Год</td>
+                                <td>{{ film.year }}</td>
+                            </tr>
+                            <tr>
+                                <td>Жанр</td>
+                                <td>
+                                    {% for genre in film.genres %}
+                                        {% if loop.index < 3 %}
+                                            {{ genre.genre }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <nav>
+        <div id="paginate">
+            {% import 'macros.html' as macros %}
+            {{ macros.paginate(paginate=paginate, url=paginate_url, **params) }}
+        </div>
+    </nav>
+{% endblock %}

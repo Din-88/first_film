@@ -1,0 +1,71 @@
+{% macro paginate(paginate, url) %}
+<div class="paginate">
+    {% if paginate.has_prev %}
+        <span>
+            <a class='page_number' href={{ url_for(url, page=paginate.prev_num, **kwargs) }}>
+                {{ ' < ' }}
+            </a>
+        </span>
+    {% endif %}
+
+    {% for number in paginate.iter_pages(left_edge=2, left_current=2, right_current=3, right_edge=2) %}
+        {% if not number %}
+            <span class='skip_page'>.</span>
+        {% elif paginate.page != number %}
+            <span>
+                <a class='page_number'
+                    href={{ url_for(url, page=number, **kwargs) }}>
+                {{ number }}
+                </a>
+            </span>
+        {% else %}
+            <span class='current_page'>{{ number }}</span>
+        {% endif %}
+    {% endfor %}
+
+    {% if paginate.has_next %}
+        <span>
+            <a class='page_number'
+                href={{ url_for(url, page=paginate.next_num, **kwargs) }}>
+                {{ ' > ' }}
+            </a>
+        </span>
+    {% endif %}
+</div>
+
+<style>
+    #paginate {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin: auto;
+        width: fit-content;
+        margin-top: 25px;
+    }
+    #paginate a {
+        text-decoration: none;
+    }
+    #paginate span {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+    #paginate .current_page {
+        font-size: 1.8rem;
+        color: white;
+    }
+</style>
+{% endmacro %}
+
+
+{% macro render_form_field(field) %}
+    {{ field.label }}
+    {{ field(**kwargs)|safe }}
+    {% if field.errors %}
+    <span class=errors>
+    {% for error in field.errors %}
+        {{ error }}
+    {% endfor %}
+    </span>
+    {% endif %}
+{% endmacro %}

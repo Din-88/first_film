@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="language" content="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('admin.static', filename='css/style.css') }}">
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                {% set sort_type = view_data["sort_type"] %}
+                {% if sort_type == "asc" %}
+                    {% set sort_type = "dsc" %}
+                {% elif sort_type == "dsc" %}
+                    {% set sort_type = "asc" %}
+                {% else %}
+                    {% set sort_type = "dsc" %}
+                {% endif %}
+
+                {% for column_name in view_data['column_names'] %}
+                    {% if column_name != view_data["sort"] %}
+                        {% set sort_type = none %}
+                    {% endif %}
+                    <th>
+                        <a href= {{ url_for("admin.view",   model_name=view_data["name"],
+                                                            page=view_data["paginate"].page,
+                                                            sort=column_name,
+                                                            sort_type=sort_type) }}>
+                            {{ column_name }}
+                            {% if sort_type %}
+                                {% if sort_type == "asc" %}
+                                    ▼
+                                {% else %}
+                                    ▲
+                                {% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for value in view_data['values'] %}
+            <tr>
+                {% for column_name in view_data['column_names'] %}
+                <td data-tooltip="{{ value[column_name] }}">
+                    <a href={{ url_for("admin.edit", model_name=value.__tablename__, id=value['id']) }}>{{ value[column_name] }}</a>
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <nav>
+        <div id="paginate">
+            {% import 'macros.html' as macro %}
+            {{ macro.paginate(view_data["paginate"], "admin.view", model_name=view_data["name"], sort=view_data["sort"], sort_type=view_data["sort_type"]) }}
+        </div>
+    </nav>
+</body>
+</html>

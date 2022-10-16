@@ -1,0 +1,20 @@
+{% for review in reviews %}
+<div class="review">
+    <div class="review_header">
+        <span class="user_name">{{review.author}}</span>
+        <span class="date_time"><time>{{review.date.strftime('%d-%m-%Y %H:%M')}}</time></span>
+    </div>
+    
+    {% if review.title %}
+    <p><strong>{{ review.title }}</strong></p>
+    {% endif %}
+
+    <input type="checkbox" class="more_checker" id={{ review.id }}>
+    <div class="description">
+        <p>{{ review.description }}</p>
+        <div class="bottom"></div>
+    </div>
+    
+    <label for={{ review.id }} class="more_button"></label>
+</div>
+{% endfor %}

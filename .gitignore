@@ -1,0 +1,7 @@
+__pycache__
+.vscode
+venv
+*.db
+.env
+logs/*
+postgres/data/pgdata/*

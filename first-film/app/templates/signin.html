@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %} Вход {% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="/static/css/form_style.css">
+    {% from "macros.html" import render_form_field %}    
+
+    <section class="sign_form">
+        <div class="form_container">
+            <p>Вход</p>
+            <form method=post>
+                <span class=errors>
+                    {% for error in form.form_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </span>
+                {{ form.csrf_token }}          
+                {{ render_form_field(form.username) }}
+                {{ render_form_field(form.password) }}
+                <span>
+                    {{ render_form_field(form.remember) }}
+                </span>
+                <input type=submit value=Войти>
+                <span>
+                    <a href="#">Забыли Имя или Пароль</a>  
+                </span>
+            </form>
+        </div>
+        <p>Еще нет аккаунта? <span><a href={{ url_for("home.signup") }}>Регистрация</a> </span></p>
+    </section>    
+{% endblock %}

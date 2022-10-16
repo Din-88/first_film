@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %} О нас {% endblock %}
+    
+{% block content %}
+<p>
+    Сайт first-film.ddns.net является сайтом-портфолио c отрытым исходным кодом.
+</p>
+<p>
+    Сайт first-film.ddns.net не хранит у себя файлы видео а также изображения используемые как постеры к фильмам.
+</p>
+<p>
+    Если вы являетесь правообладателем какого либо содержимого на сайте first-film.ddns.net
+    и/или размещение какого либо содержимого нарушает ваши права,
+    сообщите об этом на почту <a href="mailto:din.vasilevsky@gmail.com" target="_blank">din.vasilevsky@gmail.com.</a>
+</p>
+<p>
+    Продолжая использовать cайт first-film.ddns.net вы соглашаетесь с <a href={{ url_for("home.terms_and_conditions") }} target="_blank"><u>условиями пользования.</u></a>
+</p>
+<p>
+    Сайт first-film.ddns.net стримится к улучшению своей функциональности.
+    Мы не исключаем возможность перерывов в работе или ошибки.
+    О некоректном функционировании просим сообщать на почту <a href="mailto:din.vasilevsky@gmail.com" target="_blank">din.vasilevsky@gmail.com.</a>
+</p>
+{% endblock %}

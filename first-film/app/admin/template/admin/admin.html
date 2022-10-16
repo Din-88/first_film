@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('admin.static', filename='css/style.css') }}">
+
+    <h1>Models</h1>
+    <div class="form_radio_group">
+        {% for name in models_view.dict_models %}
+        <div class="form_radio_group-item">
+            <input class="" id="{{'admin_' + name }}" type="radio" name="radio" value="{{ 'admin_' + name }}"
+                onclick="document.getElementById('iframe_a').src='{{ url_for('admin.view', model_name=name) }}';">
+            <label for="{{ 'admin_' + name }}">{{ name }}</label>
+        </div>
+        {% endfor %}
+    </div>
+
+    <iframe id="iframe_a" src={{ url_for('admin.view', model_name='users') }} name="iframe_a" seamless loading="lazy">
+        <p>Your browser does not support iframes.</p>
+    </iframe>
+    <script type="text/javascript" src="{{ url_for('admin.static', filename='scripts/javascript.js') }}"></script>
+{% endblock %}

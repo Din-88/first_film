@@ -1,0 +1,8 @@
+<div class="second_nav_sub">
+    <ul>
+        <li> <a href={{ url_for("home.index", type=type) }}> Все жанры </a></li>
+        {% for genre in genres %}
+        <li> <a href={{ url_for("home.index", type=type, genre=genre) }}> {{ genre|capitalize }} </a></li>
+        {% endfor %}
+    </ul>
+</div>

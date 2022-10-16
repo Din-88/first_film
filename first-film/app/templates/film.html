@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+
+{% block link %}
+<link rel="stylesheet" href="../static/css/film_page.css">
+<link rel="stylesheet" href="../static/css/media.css">
+{% endblock %}
+
+{% block title %}{{ film.nameRu }}{% endblock %}
+
+{% block content %}
+
+    <div class="film_page">
+        <div class="left">
+            <div class="poster">
+                <img src="{{ film.posterUrlPreview }}" alt="">
+            </div>
+
+            <div class="look_at_kinopoisk">
+                <h2><a href="{{ film.webUrl }}" target="_blank">Смотреть на kinopoisk.ru</a></h2>
+            </div>
+        </div>
+        
+        <div class="film_name">
+            <h2>{{ film.nameRu }}</h2>
+            {% if film.nameOriginal %}
+            <h3>({{ film.nameOriginal }})</h3>
+            {% endif %}
+        </div>
+
+        <div class="right">
+            <div class="info">
+                <table>
+                    <tbody>
+                        {% if film.slogan %}
+                        <tr>
+                            <td>Слоган</td>
+                            <td>
+                                {{ film.slogan }}
+                            </td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <td>Год</td>
+                            <td>
+                                {{ film.year }}
+                                {% if film.serial %}
+                                    - ...
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Жанр</td>
+                            <td>
+                                {% for genre in film.genres %}
+                                {{ genre.genre }}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Страна</td>
+                            <td>
+                                {% for country in film.countries %}
+                                {{ country.country }}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        <tr>
+                            {% if film.filmLength %}
+                            <td>Время</td>
+                            <td>{{ film.filmLength }} мин.</td>
+                            {% endif %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="description">
+                {{ film.description }}
+            </div>
+        </div>
+
+        <div class="video_block">
+            {% if videos | length > 0 %}
+                {% for key, value in videos.items() %}
+                    <select onchange="document.getElementById('iframe').src = this.value;">
+                        <!-- onfocus="document.getElementById('iframe').src = this.value;" -->
+                        {% for video in value %}
+                            <option value={{ video.url }} >{{ video.name }}</option>
+                        {% endfor %}
+                    </select>
+                {% endfor %}
+
+                <div class="video">
+                    {% for key, value in videos.items() %}
+                    {%  if loop.index < 2 %}
+                    <iframe id="iframe"
+                        src={{ value[0].url }}
+                        title="YouTube video player" frameborder="0" 
+                        allow="" 
+                        allowfullscreen
+                        loading="lazy">
+                    </iframe>
+                    <!-- allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" -->
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="reviews_block" id="reviews_block" onload=more()>
+            <h3><a href="">Рецензии зрителей: {% if not reviews %} зрители еще не оставили реценции {% endif %}</a></h3>
+            {% for review in reviews %}
+            <div class="review">
+                <div class="review_header">
+                    <span class="user_name">{{review.author}}</span>
+                    <span class="date_time"><time>{{review.date.strftime('%d-%m-%Y %H:%M')}}</time></span>
+                </div>
+                
+                {% if review.title %}
+                <p><strong>{{ review.title }}</strong></p>
+                {% endif %}
+
+                <input type="checkbox" class="more_checker" id={{ review.id }}>
+                <div class="description">
+                    <p>{{ review.description }}</p>
+                    <div class="bottom"></div>
+                </div>               
+                <label for={{ review.id }} class="more_button"></label>
+            </div>
+            {% endfor %}
+            {% if reviews %}
+            <button id="more_reviews" onclick="more_reviews(film_id='{{ film.filmId }}');">Загрузить еще</button>
+            {% endif %}
+        </div>
+
+        <div class="similars_block">
+            <p>Смотрите похожие фильмы:</p>
+            <div class="similars">
+                {% for similar in similars %}
+                <div class="similar">
+                    <div class="poster_preview">
+                        <img src="{{ similar.posterUrlPreview }}" alt="img">
+                    </div>
+                    
+                    {% if similar.in_first_film %}
+                        <a href={{ url_for("home.film_page", film_id=similar.kinopoiskFilmId) }}>
+                            <h5>{{ similar.nameRu }}</h5>
+                            {% if similar.nameOriginal %}
+                            <h5>({{ similar.nameOriginal }})</h5>
+                            {% endif %}                
+                        </a>
+                    {% else %}
+                        <a href="https://www.kinopoisk.ru/film/{{ similar.kinopoiskFilmId }}/" target="_blank">
+                            <h5>{{ similar.nameRu }}</h5>
+                            {% if similar.nameOriginal %}
+                            <h5>({{ similar.nameOriginal }})</h5>
+                            {% endif %}                    
+                            kinopoisk.ru
+                        </a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <script src="/static/scripts/javascript.js"></script>
+    <script src="/static/scripts/film_page.js"></script>
+{% endblock %}
