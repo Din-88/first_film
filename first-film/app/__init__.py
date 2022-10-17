@@ -40,11 +40,14 @@ def create_app():
 
         from . home import login_manager
         login_manager.init_app(app)
-        
-        from . import error_views
+       
         from . utils import before_request, teardown_request
-
         app.before_request_funcs = {None:[before_request]}
+         
+        from . error_views import unauthorized, forbidden, page_not_found
+        app.register_error_handler(401, unauthorized)
+        app.register_error_handler(403, forbidden)
+        app.register_error_handler(404, page_not_found)
 
         return app
 
