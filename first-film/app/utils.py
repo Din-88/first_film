@@ -14,13 +14,14 @@ from app.models import Film
 
 # @app.before_request
 def before_request():
-    req = Request(
-        remote_addr=request.host,
-        path=request.path,
-        date_time=datetime.utcnow()
-    )
-    db.session.add(req)
-    db.session.commit()
+    if not request.path.startswith('/second_nav'):
+        req = Request(
+            remote_addr=request.host,
+            path=request.path,
+            date_time=datetime.utcnow()
+        )
+        db.session.add(req)
+        db.session.commit()
 
 @app.teardown_request
 def teardown_request(a):
