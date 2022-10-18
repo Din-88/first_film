@@ -77,9 +77,15 @@ def signin():
                 fresh=True
                 )
             # confirm_login()
-            user = db.session.merge(user)
-            db.session.add(user)            
-            db.session.commit()
+            try:
+                user = db.session.merge(user)
+                # db.session.add(user)
+                db.session.commit()
+            except:
+                db.session.rollback()
+                return render_template('signin.html', form=form)
+            finally:
+                db.session.close()
 
             next = request.args.get('next')
 
