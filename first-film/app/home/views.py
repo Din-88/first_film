@@ -1,5 +1,5 @@
 
-from flask import render_template, request
+from flask import render_template, request, abort
 from flask import current_app as app
 
 import datetime
@@ -95,6 +95,11 @@ def second_nav(type):
 @home.route('/<film_type>/<int:film_id>')
 def film_page(film_type=None, film_id=None):
     a = film_type
+
+    film = db.session.query(Film.id).filter(Film.filmId==film_id).scalar()
+    if film == None:
+        return abort(404)
+
     film = db.session.query(Film).filter(Film.filmId==film_id).one()
     reviews = film.reviews.limit(5).all()
     similars = film.similars.limit(6).all()
