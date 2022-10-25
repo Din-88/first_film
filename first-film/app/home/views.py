@@ -54,11 +54,12 @@ def index(type=''):
 @home.route('/search/<int:page>', methods=['GET', 'POST'])
 @home.route('/search', methods=['GET', 'POST'])
 def search(page=1, search_text='а'):
-    search_text = request.form.get(key='search_text', default='a', type=str)
-    
     if request.method == 'POST':
+        search_text = request.form.get( key='search_text', default='a', type=str)
         found = search_film(query=Film.query, search_text=search_text, limit=100).all()
         return render_template('search_result.html', found=found, search_text=search_text)
+
+    search_text = request.args.get(key='search_text', default='a', type=str)
 
     films_per_page = app.config["FILMS_PER_PAGE"]
     params = {'search_text': search_text}
